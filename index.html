@@ -1,11 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Polius OS — manifest.json</title>
+  <title>Polius OS — Refracta Snapshot</title>
 
   <style>
     * {
@@ -15,9 +13,10 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background: #090313;
-      color: white;
-      font-family: Arial, sans-serif;
+      background:
+        radial-gradient(circle at top, #241044 0%, #090313 45%, #050208 100%);
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
       padding: 30px;
     }
 
@@ -26,53 +25,103 @@
       margin: auto;
     }
 
-    h1 {
-      color: #b88cff;
-      margin-bottom: 5px;
+    header {
+      margin-bottom: 30px;
     }
 
-    p {
+    h1 {
+      margin: 0;
+      color: #b88cff;
+      font-size: 38px;
+    }
+
+    .subtitle {
       color: #aaa;
-      margin-bottom: 20px;
+      margin-top: 8px;
+    }
+
+    .warning {
+      background: #24170a;
+      border: 1px solid #6d4614;
+      color: #f6d08a;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+    }
+
+    .step {
+      margin-bottom: 25px;
+    }
+
+    .step h2 {
+      font-size: 21px;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #aaa;
+      margin-bottom: 10px;
     }
 
     .code-box {
       position: relative;
-      background: #111;
-      border: 1px solid #2d2140;
-      border-radius: 12px;
+      background: #0d0b11;
+      border: 1px solid #302241;
+      border-radius: 14px;
       overflow: hidden;
+    }
+
+    pre {
+      margin: 0;
+      padding: 55px 20px 20px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #eee;
+      font-family: Consolas, monospace;
+      line-height: 1.55;
+      font-size: 14px;
     }
 
     button {
       position: absolute;
       top: 12px;
       right: 12px;
+      border: none;
       background: #8b5cf6;
       color: white;
-      border: none;
-      padding: 10px 16px;
+      padding: 9px 14px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
     }
 
     button:hover {
-      background: #9d70ff;
+      background: #a273ff;
     }
 
-    .copied {
-      background: #22c55e !important;
+    button.copied {
+      background: #22c55e;
     }
 
-    pre {
-      margin: 0;
-      padding: 60px 20px 20px;
-      overflow-x: auto;
-      white-space: pre-wrap;
-      font-family: Consolas, monospace;
-      line-height: 1.5;
-      color: #eee;
+    .success {
+      margin-top: 30px;
+      padding: 20px;
+      border-radius: 14px;
+      background: #0c2416;
+      border: 1px solid #1d6335;
+      color: #a8f0bd;
+    }
+
+    .footer {
+      margin-top: 35px;
+      color: #666;
+      text-align: center;
+    }
+
+    .highlight {
+      color: #c6a7ff;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -80,51 +129,139 @@
 <body>
 
   <div class="container">
-    <h1>☀ Polius OS</h1>
-    <p>manifest.json — Tema do KDE Plasma</p>
 
-    <div class="code-box">
+    <header>
+      <h1>☀️ Polius OS</h1>
+      <div class="subtitle">
+        Refracta Snapshot — geração da primeira ISO
+      </div>
+    </header>
 
-      <button id="copyBtn" onclick="copiar()">
-        📋 Copiar código
-      </button>
-
-      <pre id="codigo">{
-    "KPackageStructure": "Plasma/LookAndFeel",
-    "KPlugin": {
-        "Id": "org.polius.desktop",
-        "Name": "Polius OS",
-        "Description": "Tema oficial do Polius OS",
-        "Version": "1.0",
-        "License": "GPL-2.0-or-later",
-        "Authors": [
-            {
-                "Name": "Polius OS"
-            }
-        ]
-    }
-}</pre>
-
+    <div class="warning">
+      ⚠️ Execute os comandos <b>dentro do Debian que contém o seu Polius OS</b>.
+      A página apenas copia os comandos; ela não executa nada automaticamente.
     </div>
+
+    <!-- PASSO 1 -->
+    <div class="step">
+      <h2>1. Criar a pasta de trabalho</h2>
+
+      <div class="code-box">
+        <button onclick="copiar(this, 'codigo1')">📋 Copiar</button>
+
+        <pre id="codigo1">mkdir -p ~/refracta && cd ~/refracta</pre>
+      </div>
+    </div>
+
+    <!-- PASSO 2 -->
+    <div class="step">
+      <h2>2. Baixar o Refracta Snapshot Base</h2>
+
+      <div class="description">
+        Pacote base necessário para o Snapshot.
+      </div>
+
+      <div class="code-box">
+        <button onclick="copiar(this, 'codigo2')">📋 Copiar</button>
+
+        <pre id="codigo2">wget https://sourceforge.net/projects/refracta/files/tools/refractasnapshot-base_10.4.3_all.deb/download -O refractasnapshot-base.deb</pre>
+      </div>
+    </div>
+
+    <!-- PASSO 3 -->
+    <div class="step">
+      <h2>3. Baixar a interface gráfica</h2>
+
+      <div class="code-box">
+        <button onclick="copiar(this, 'codigo3')">📋 Copiar</button>
+
+        <pre id="codigo3">wget https://sourceforge.net/projects/refracta/files/tools/refractasnapshot-gui_10.4.1_all.deb/download -O refractasnapshot-gui.deb</pre>
+      </div>
+    </div>
+
+    <!-- PASSO 4 -->
+    <div class="step">
+      <h2>4. Instalar o Refracta Snapshot</h2>
+
+      <div class="code-box">
+        <button onclick="copiar(this, 'codigo4')">📋 Copiar</button>
+
+        <pre id="codigo4">sudo apt install ./refractasnapshot-base.deb ./refractasnapshot-gui.deb</pre>
+      </div>
+    </div>
+
+    <!-- PASSO 5 -->
+    <div class="step">
+      <h2>5. Verificar o espaço disponível</h2>
+
+      <div class="description">
+        Confira se há bastante espaço livre antes de criar a ISO.
+      </div>
+
+      <div class="code-box">
+        <button onclick="copiar(this, 'codigo5')">📋 Copiar</button>
+
+        <pre id="codigo5">df -h</pre>
+      </div>
+    </div>
+
+    <!-- PASSO 6 -->
+    <div class="step">
+      <h2>6. Abrir o Refracta Snapshot</h2>
+
+      <div class="code-box">
+        <button onclick="copiar(this, 'codigo6')">📋 Copiar</button>
+
+        <pre id="codigo6">sudo refractasnapshot-gui</pre>
+      </div>
+    </div>
+
+    <!-- PASSO 7 -->
+    <div class="step">
+      <h2>7. Depois, gerar a ISO</h2>
+
+      <div class="description">
+        Dentro do Refracta Snapshot, use a opção de criação do snapshot.
+        O programa cria uma imagem Live baseada no sistema que está rodando.
+      </div>
+
+      <div class="code-box">
+        <button onclick="copiar(this, 'codigo7')">📋 Copiar</button>
+
+        <pre id="codigo7">sudo refractasnapshot</pre>
+      </div>
+    </div>
+
+    <div class="success">
+      ✅ Ao terminar, procure a ISO gerada pelo Refracta e renomeie para
+      <span class="highlight">polius-os.iso</span>, caso ela tenha outro nome.
+    </div>
+
+    <div class="footer">
+      Polius OS • Debian • Refracta Snapshot
+    </div>
+
   </div>
 
   <script>
-    function copiar() {
-      const codigo = document.getElementById("codigo").innerText;
-      const botao = document.getElementById("copyBtn");
+    function copiar(botao, id) {
+      const texto = document.getElementById(id).innerText;
 
-      navigator.clipboard.writeText(codigo).then(() => {
-        botao.textContent = "✅ Copiado!";
+      navigator.clipboard.writeText(texto).then(() => {
+        const original = botao.innerText;
+
+        botao.innerText = "✅ Copiado!";
         botao.classList.add("copied");
 
         setTimeout(() => {
-          botao.textContent = "📋 Copiar código";
+          botao.innerText = original;
           botao.classList.remove("copied");
-        }, 2000);
+        }, 1800);
+      }).catch(() => {
+        alert("Não foi possível copiar automaticamente.");
       });
     }
   </script>
 
 </body>
 </html>
-```
