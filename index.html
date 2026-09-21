@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Polius OS — Refracta Snapshot</title>
+
+  <title>Polius OS — Refracta Installer</title>
 
   <style>
     * {
@@ -14,14 +15,14 @@
       margin: 0;
       min-height: 100vh;
       background:
-        radial-gradient(circle at top, #241044 0%, #090313 45%, #050208 100%);
+        radial-gradient(circle at top, #28104a 0%, #0c0613 45%, #050208 100%);
       color: #fff;
       font-family: Arial, Helvetica, sans-serif;
       padding: 30px;
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1050px;
       margin: auto;
     }
 
@@ -40,22 +41,23 @@
       margin-top: 8px;
     }
 
-    .warning {
-      background: #24170a;
-      border: 1px solid #6d4614;
-      color: #f6d08a;
-      padding: 15px;
+    .info {
+      background: #120b1d;
+      border: 1px solid #3a2850;
+      padding: 16px;
       border-radius: 12px;
+      color: #ccc;
       margin-bottom: 25px;
+      line-height: 1.6;
     }
 
     .step {
-      margin-bottom: 25px;
+      margin-bottom: 24px;
     }
 
     .step h2 {
+      margin-bottom: 8px;
       font-size: 21px;
-      margin-bottom: 10px;
     }
 
     .description {
@@ -65,22 +67,22 @@
 
     .code-box {
       position: relative;
-      background: #0d0b11;
-      border: 1px solid #302241;
+      background: #0b090e;
+      border: 1px solid #332442;
       border-radius: 14px;
       overflow: hidden;
     }
 
     pre {
       margin: 0;
-      padding: 55px 20px 20px;
+      padding: 58px 20px 20px;
       overflow-x: auto;
       white-space: pre-wrap;
       word-break: break-word;
-      color: #eee;
+      color: #f1edf5;
       font-family: Consolas, monospace;
-      line-height: 1.55;
       font-size: 14px;
+      line-height: 1.55;
     }
 
     button {
@@ -88,12 +90,12 @@
       top: 12px;
       right: 12px;
       border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
       background: #8b5cf6;
       color: white;
-      padding: 9px 14px;
-      border-radius: 8px;
-      cursor: pointer;
       font-weight: bold;
+      cursor: pointer;
     }
 
     button:hover {
@@ -104,24 +106,33 @@
       background: #22c55e;
     }
 
+    .warning {
+      background: #24170a;
+      border: 1px solid #6d4614;
+      color: #f6d08a;
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 25px;
+      line-height: 1.6;
+    }
+
     .success {
-      margin-top: 30px;
-      padding: 20px;
-      border-radius: 14px;
-      background: #0c2416;
-      border: 1px solid #1d6335;
-      color: #a8f0bd;
+      margin-top: 25px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #0b2416;
+      border: 1px solid #1f6638;
+      color: #a9efbd;
     }
 
-    .footer {
-      margin-top: 35px;
-      color: #666;
+    code {
+      color: #d6baff;
+    }
+
+    footer {
       text-align: center;
-    }
-
-    .highlight {
-      color: #c6a7ff;
-      font-weight: bold;
+      color: #62586c;
+      margin-top: 35px;
     }
   </style>
 </head>
@@ -133,13 +144,14 @@
     <header>
       <h1>☀️ Polius OS</h1>
       <div class="subtitle">
-        Refracta Snapshot — geração da primeira ISO
+        Refracta Installer — preparando a próxima ISO
       </div>
     </header>
 
-    <div class="warning">
-      ⚠️ Execute os comandos <b>dentro do Debian que contém o seu Polius OS</b>.
-      A página apenas copia os comandos; ela não executa nada automaticamente.
+    <div class="info">
+      Este painel instala o <b>Refracta Installer</b> no seu Debian
+      personalizado para que a próxima ISO do Polius OS possa ter
+      um instalador.
     </div>
 
     <!-- PASSO 1 -->
@@ -149,22 +161,22 @@
       <div class="code-box">
         <button onclick="copiar(this, 'codigo1')">📋 Copiar</button>
 
-        <pre id="codigo1">mkdir -p ~/refracta && cd ~/refracta</pre>
+        <pre id="codigo1">mkdir -p ~/refracta-installer && cd ~/refracta-installer</pre>
       </div>
     </div>
 
     <!-- PASSO 2 -->
     <div class="step">
-      <h2>2. Baixar o Refracta Snapshot Base</h2>
+      <h2>2. Baixar o Refracta Installer Base</h2>
 
       <div class="description">
-        Pacote base necessário para o Snapshot.
+        Versão publicada pelo projeto Refracta.
       </div>
 
       <div class="code-box">
         <button onclick="copiar(this, 'codigo2')">📋 Copiar</button>
 
-        <pre id="codigo2">wget https://sourceforge.net/projects/refracta/files/tools/refractasnapshot-base_10.4.3_all.deb/download -O refractasnapshot-base.deb</pre>
+        <pre id="codigo2">wget https://sourceforge.net/projects/refracta/files/tools/refractainstaller-base_9.6.6_all.deb/download -O refractainstaller-base.deb</pre>
       </div>
     </div>
 
@@ -175,39 +187,50 @@
       <div class="code-box">
         <button onclick="copiar(this, 'codigo3')">📋 Copiar</button>
 
-        <pre id="codigo3">wget https://sourceforge.net/projects/refracta/files/tools/refractasnapshot-gui_10.4.1_all.deb/download -O refractasnapshot-gui.deb</pre>
+        <pre id="codigo3">wget https://sourceforge.net/projects/refracta/files/tools/refractainstaller-gui_9.6.6_all.deb/download -O refractainstaller-gui.deb</pre>
       </div>
     </div>
 
     <!-- PASSO 4 -->
     <div class="step">
-      <h2>4. Instalar o Refracta Snapshot</h2>
+      <h2>4. Instalar os dois pacotes</h2>
+
+      <div class="description">
+        O GUI depende do pacote base.
+      </div>
 
       <div class="code-box">
         <button onclick="copiar(this, 'codigo4')">📋 Copiar</button>
 
-        <pre id="codigo4">sudo apt install ./refractasnapshot-base.deb ./refractasnapshot-gui.deb</pre>
+        <pre id="codigo4">sudo apt install ./refractainstaller-base.deb ./refractainstaller-gui.deb</pre>
       </div>
     </div>
 
     <!-- PASSO 5 -->
     <div class="step">
-      <h2>5. Verificar o espaço disponível</h2>
-
-      <div class="description">
-        Confira se há bastante espaço livre antes de criar a ISO.
-      </div>
+      <h2>5. Abrir o instalador</h2>
 
       <div class="code-box">
         <button onclick="copiar(this, 'codigo5')">📋 Copiar</button>
 
-        <pre id="codigo5">df -h</pre>
+        <pre id="codigo5">sudo refractainstaller-yad</pre>
       </div>
     </div>
 
-    <!-- PASSO 6 -->
-    <div class="step">
-      <h2>6. Abrir o Refracta Snapshot</h2>
+    <div class="warning">
+      ⚠️ <b>Importante:</b> nesta etapa você só precisa confirmar que o
+      instalador abre corretamente. Não é necessário instalar o sistema
+      no seu Debian atual.
+    </div>
+
+    <div class="success">
+      ✅ Depois de confirmar que o instalador abre, gere uma nova ISO
+      com o Refracta Snapshot. Essa será a versão que você poderá
+      testar no <b>polius-test.qcow2</b>.
+    </div>
+
+    <div class="step" style="margin-top: 25px;">
+      <h2>6. Gerar a nova ISO</h2>
 
       <div class="code-box">
         <button onclick="copiar(this, 'codigo6')">📋 Copiar</button>
@@ -216,40 +239,18 @@
       </div>
     </div>
 
-    <!-- PASSO 7 -->
-    <div class="step">
-      <h2>7. Depois, gerar a ISO</h2>
-
-      <div class="description">
-        Dentro do Refracta Snapshot, use a opção de criação do snapshot.
-        O programa cria uma imagem Live baseada no sistema que está rodando.
-      </div>
-
-      <div class="code-box">
-        <button onclick="copiar(this, 'codigo7')">📋 Copiar</button>
-
-        <pre id="codigo7">sudo refractasnapshot</pre>
-      </div>
-    </div>
-
-    <div class="success">
-      ✅ Ao terminar, procure a ISO gerada pelo Refracta e renomeie para
-      <span class="highlight">polius-os.iso</span>, caso ela tenha outro nome.
-    </div>
-
-    <div class="footer">
-      Polius OS • Debian • Refracta Snapshot
-    </div>
+    <footer>
+      Polius OS • Refracta Installer • Debian
+    </footer>
 
   </div>
 
   <script>
     function copiar(botao, id) {
       const texto = document.getElementById(id).innerText;
+      const original = botao.innerText;
 
       navigator.clipboard.writeText(texto).then(() => {
-        const original = botao.innerText;
-
         botao.innerText = "✅ Copiado!";
         botao.classList.add("copied");
 
