@@ -4,263 +4,548 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Polius OS — Refracta Installer</title>
+  <title>Polius OS — Correção do Instalador</title>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
+    :root {
+      --bg: #07040d;
+      --card: #11091c;
+      --card2: #170d26;
+      --border: #332047;
+      --purple: #9b6cff;
+      --purple2: #b88cff;
+      --text: #f7f2ff;
+      --muted: #a99db7;
+      --green: #35d07f;
+      --yellow: #f3c969;
+      --red: #ff6b7a;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
+      color: var(--text);
+      font-family: Inter, Arial, Helvetica, sans-serif;
       background:
-        radial-gradient(circle at top, #28104a 0%, #0c0613 45%, #050208 100%);
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-      padding: 30px;
+        radial-gradient(circle at 50% -10%, #35105e 0%, transparent 42%),
+        radial-gradient(circle at 100% 100%, #1d0d31 0%, transparent 35%),
+        var(--bg);
     }
 
     .container {
-      max-width: 1050px;
+      width: min(1050px, calc(100% - 32px));
       margin: auto;
+      padding: 45px 0 60px;
     }
 
     header {
-      margin-bottom: 30px;
+      text-align: center;
+      margin-bottom: 42px;
+    }
+
+    .logo {
+      font-size: 50px;
+      margin-bottom: 8px;
     }
 
     h1 {
       margin: 0;
-      color: #b88cff;
-      font-size: 38px;
+      font-size: clamp(32px, 6vw, 52px);
+      color: var(--purple2);
     }
 
     .subtitle {
-      color: #aaa;
-      margin-top: 8px;
+      max-width: 720px;
+      margin: 14px auto 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 16px;
     }
 
-    .info {
-      background: #120b1d;
-      border: 1px solid #3a2850;
-      padding: 16px;
-      border-radius: 12px;
-      color: #ccc;
-      margin-bottom: 25px;
-      line-height: 1.6;
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+      padding: 9px 15px;
+      border-radius: 999px;
+      border: 1px solid #493063;
+      background: #140c21;
+      color: #d8c8e8;
+      font-size: 14px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px rgba(53, 208, 127, .55);
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(23,13,38,.96), rgba(13,8,22,.96));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.22);
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      color: var(--purple2);
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 8px 0 0;
+    }
+
+    .warning {
+      border-color: #644e20;
+      background: linear-gradient(180deg, #1d1509, #100c07);
+    }
+
+    .warning h2 {
+      color: var(--yellow);
     }
 
     .step {
-      margin-bottom: 24px;
+      position: relative;
+      margin-top: 24px;
     }
 
-    .step h2 {
-      margin-bottom: 8px;
-      font-size: 21px;
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: #29134a;
+      border: 1px solid #543078;
+      color: var(--purple2);
+      font-weight: 800;
+      margin-bottom: 9px;
     }
 
-    .description {
-      color: #aaa;
-      margin-bottom: 10px;
+    .step h3 {
+      margin: 0 0 7px;
+      font-size: 18px;
+    }
+
+    .step p {
+      margin-bottom: 12px;
     }
 
     .code-box {
       position: relative;
-      background: #0b090e;
-      border: 1px solid #332442;
+      border: 1px solid #3a2850;
       border-radius: 14px;
+      background: #08060b;
       overflow: hidden;
+    }
+
+    .code-label {
+      padding: 10px 15px;
+      font-size: 12px;
+      color: #8f829b;
+      border-bottom: 1px solid #24172f;
+      background: #0d0912;
     }
 
     pre {
       margin: 0;
-      padding: 58px 20px 20px;
+      padding: 18px 16px 20px;
+      padding-right: 110px;
       overflow-x: auto;
       white-space: pre-wrap;
       word-break: break-word;
-      color: #f1edf5;
-      font-family: Consolas, monospace;
+      color: #f4eef9;
+      font-family: Consolas, "Cascadia Mono", monospace;
       font-size: 14px;
       line-height: 1.55;
     }
 
-    button {
+    .copy {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      border: none;
-      border-radius: 8px;
-      padding: 9px 14px;
-      background: #8b5cf6;
+      top: 42px;
+      right: 10px;
+      border: 1px solid #5d3d7d;
+      border-radius: 9px;
+      padding: 8px 11px;
       color: white;
-      font-weight: bold;
+      background: #6e46a5;
       cursor: pointer;
+      font-weight: 700;
     }
 
-    button:hover {
-      background: #a273ff;
+    .copy:hover {
+      background: #8657c8;
     }
 
-    button.copied {
-      background: #22c55e;
+    .copy.ok {
+      background: #238b57;
+      border-color: #38b978;
     }
 
-    .warning {
-      background: #24170a;
-      border: 1px solid #6d4614;
-      color: #f6d08a;
-      padding: 16px;
+    .checklist {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .item {
+      padding: 13px 14px;
       border-radius: 12px;
-      margin-top: 25px;
-      line-height: 1.6;
+      background: #0d0912;
+      border: 1px solid #281a36;
+      color: #ddd3e5;
+    }
+
+    .item strong {
+      color: var(--purple2);
+    }
+
+    .command-note {
+      margin-top: 10px;
+      color: #85798e;
+      font-size: 13px;
     }
 
     .success {
-      margin-top: 25px;
-      padding: 18px;
-      border-radius: 12px;
-      background: #0b2416;
-      border: 1px solid #1f6638;
-      color: #a9efbd;
+      border-color: #1f6443;
+      background: linear-gradient(180deg, #0c1b14, #09110d);
     }
 
-    code {
-      color: #d6baff;
+    .success h2 {
+      color: var(--green);
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: white;
+      border: 1px solid #51316d;
+      background: #211132;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+    }
+
+    .link:hover {
+      background: #2d1745;
     }
 
     footer {
       text-align: center;
-      color: #62586c;
       margin-top: 35px;
+      color: #665970;
+      font-size: 13px;
+    }
+
+    .divider {
+      height: 1px;
+      background: #25172f;
+      margin: 24px 0;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(100% - 20px, 1050px);
+        padding-top: 25px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      pre {
+        padding-right: 15px;
+        padding-top: 52px;
+      }
+
+      .copy {
+        top: 42px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
+  <main class="container">
 
     <header>
-      <h1>☀️ Polius OS</h1>
+      <div class="logo">☀️</div>
+
+      <h1>Polius OS</h1>
+
       <div class="subtitle">
-        Refracta Installer — preparando a próxima ISO
+        Correção do Refracta Installer para Debian 13 + KDE Plasma + SDDM.
+        Faça o instalador da sua ISO desativar corretamente o login automático
+        no sistema instalado.
+      </div>
+
+      <div class="status">
+        <span class="dot"></span>
+        Refracta Installer 9.6.6 → patch SDDM
       </div>
     </header>
 
-    <div class="info">
-      Este painel instala o <b>Refracta Installer</b> no seu Debian
-      personalizado para que a próxima ISO do Polius OS possa ter
-      um instalador.
-    </div>
+    <section class="card warning">
+      <h2>⚠️ Qual é o problema?</h2>
 
-    <!-- PASSO 1 -->
-    <div class="step">
-      <h2>1. Criar a pasta de trabalho</h2>
+      <p>
+        A opção <b>Disable automatic login to desktop</b> pode aparecer
+        marcada, mas o instalador original não tratava corretamente o
+        <b>SDDM</b> usado pelo KDE Plasma.
+      </p>
 
-      <div class="code-box">
-        <button onclick="copiar(this, 'codigo1')">📋 Copiar</button>
+      <p>
+        O resultado é que a instalação termina, reinicia e entra diretamente
+        no desktop, sem mostrar a tela de login.
+      </p>
+    </section>
 
-        <pre id="codigo1">mkdir -p ~/refracta-installer && cd ~/refracta-installer</pre>
-      </div>
-    </div>
+    <section class="card">
+      <h2>🚀 Como corrigir no Debian original</h2>
 
-    <!-- PASSO 2 -->
-    <div class="step">
-      <h2>2. Baixar o Refracta Installer Base</h2>
+      <p>
+        Execute os comandos abaixo no <b>Debian que você usa para criar as ISOs
+        do Polius OS</b>.
+      </p>
 
-      <div class="description">
-        Versão publicada pelo projeto Refracta.
-      </div>
+      <!-- 1 -->
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Fazer backup do instalador atual</h3>
 
-      <div class="code-box">
-        <button onclick="copiar(this, 'codigo2')">📋 Copiar</button>
+        <p>
+          Assim você pode voltar para a versão original caso necessário.
+        </p>
 
-        <pre id="codigo2">wget https://sourceforge.net/projects/refracta/files/tools/refractainstaller-base_9.6.6_all.deb/download -O refractainstaller-base.deb</pre>
-      </div>
-    </div>
+        <div class="code-box">
+          <div class="code-label">Terminal</div>
 
-    <!-- PASSO 3 -->
-    <div class="step">
-      <h2>3. Baixar a interface gráfica</h2>
+          <button class="copy" onclick="copyCode(this, 'cmd1')">
+            📋 Copiar
+          </button>
 
-      <div class="code-box">
-        <button onclick="copiar(this, 'codigo3')">📋 Copiar</button>
-
-        <pre id="codigo3">wget https://sourceforge.net/projects/refracta/files/tools/refractainstaller-gui_9.6.6_all.deb/download -O refractainstaller-gui.deb</pre>
-      </div>
-    </div>
-
-    <!-- PASSO 4 -->
-    <div class="step">
-      <h2>4. Instalar os dois pacotes</h2>
-
-      <div class="description">
-        O GUI depende do pacote base.
+          <pre id="cmd1">sudo cp /usr/bin/refractainstaller-yad /usr/bin/refractainstaller-yad.backup</pre>
+        </div>
       </div>
 
-      <div class="code-box">
-        <button onclick="copiar(this, 'codigo4')">📋 Copiar</button>
+      <!-- 2 -->
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Baixar a versão corrigida</h3>
 
-        <pre id="codigo4">sudo apt install ./refractainstaller-base.deb ./refractainstaller-gui.deb</pre>
+        <p>
+          Esta versão contém a correção do autologin para SDDM/KDE.
+        </p>
+
+        <div class="code-box">
+          <div class="code-label">Terminal</div>
+
+          <button class="copy" onclick="copyCode(this, 'cmd2')">
+            📋 Copiar
+          </button>
+
+          <pre id="cmd2">sudo wget -O /usr/bin/refractainstaller-yad https://raw.githubusercontent.com/AtmanActive/Refracta-on-Debian-13-with-KDE/main/refractainstaller_patched/9.6.6.20/refractainstaller-yad</pre>
+        </div>
       </div>
-    </div>
 
-    <!-- PASSO 5 -->
-    <div class="step">
-      <h2>5. Abrir o instalador</h2>
+      <!-- 3 -->
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Corrigir proprietário e permissões</h3>
 
-      <div class="code-box">
-        <button onclick="copiar(this, 'codigo5')">📋 Copiar</button>
+        <div class="code-box">
+          <div class="code-label">Terminal</div>
 
-        <pre id="codigo5">sudo refractainstaller-yad</pre>
+          <button class="copy" onclick="copyCode(this, 'cmd3')">
+            📋 Copiar
+          </button>
+
+          <pre id="cmd3">sudo chown root:root /usr/bin/refractainstaller-yad
+sudo chmod 755 /usr/bin/refractainstaller-yad</pre>
+        </div>
       </div>
-    </div>
 
-    <div class="warning">
-      ⚠️ <b>Importante:</b> nesta etapa você só precisa confirmar que o
-      instalador abre corretamente. Não é necessário instalar o sistema
-      no seu Debian atual.
-    </div>
+      <!-- 4 -->
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Verificar a correção do SDDM</h3>
 
-    <div class="success">
-      ✅ Depois de confirmar que o instalador abre, gere uma nova ISO
-      com o Refracta Snapshot. Essa será a versão que você poderá
-      testar no <b>polius-test.qcow2</b>.
-    </div>
+        <div class="code-box">
+          <div class="code-label">Terminal</div>
 
-    <div class="step" style="margin-top: 25px;">
-      <h2>6. Gerar a nova ISO</h2>
+          <button class="copy" onclick="copyCode(this, 'cmd4')">
+            📋 Copiar
+          </button>
 
-      <div class="code-box">
-        <button onclick="copiar(this, 'codigo6')">📋 Copiar</button>
+          <pre id="cmd4">sudo grep -n -A12 "#sddm" /usr/bin/refractainstaller-yad</pre>
+        </div>
 
-        <pre id="codigo6">sudo refractasnapshot-gui</pre>
+        <div class="command-note">
+          O resultado deve mostrar código relacionado a
+          <b>/etc/sddm.conf</b> e/ou <b>/etc/sddm.conf.d/</b>.
+        </div>
       </div>
-    </div>
+    </section>
+
+    <section class="card">
+      <h2>💿 Depois, gere a ISO do Polius OS</h2>
+
+      <p>
+        Não altere manualmente o SDDM do Debian original se ele já está
+        funcionando corretamente. A ideia é levar o instalador corrigido
+        para dentro da ISO.
+      </p>
+
+      <div class="divider"></div>
+
+      <div class="step">
+        <div class="step-number">5</div>
+        <h3>Gerar uma nova ISO</h3>
+
+        <div class="code-box">
+          <div class="code-label">Terminal</div>
+
+          <button class="copy" onclick="copyCode(this, 'cmd5')">
+            📋 Copiar
+          </button>
+
+          <pre id="cmd5">sudo refractasnapshot-gui</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">6</div>
+        <h3>Instalar a nova ISO</h3>
+
+        <div class="checklist">
+          <div class="item">
+            ✅ Inicie <strong>Polius OS (default)</strong>
+          </div>
+
+          <div class="item">
+            ✅ Abra <strong>Instalar Polius OS</strong>
+          </div>
+
+          <div class="item">
+            ✅ Entre no modo <strong>Expert</strong>, caso necessário
+          </div>
+
+          <div class="item">
+            ✅ Deixe
+            <strong>Disable automatic login to desktop</strong>
+            marcado
+          </div>
+
+          <div class="item">
+            ✅ Instale no disco escolhido
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card success">
+      <h2>✅ Resultado esperado</h2>
+
+      <p>
+        Depois da instalação e do reboot, o Polius OS deverá iniciar no SDDM
+        e apresentar a tela de login em vez de entrar automaticamente no
+        desktop.
+      </p>
+
+      <div class="checklist">
+        <div class="item">
+          🔐 Tela de login
+        </div>
+
+        <div class="item">
+          👤 Usuário + senha
+        </div>
+
+        <div class="item">
+          💜 Desktop do Polius OS
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>🔗 Projeto da correção</h2>
+
+      <p>
+        A correção usada nesta página vem do projeto que adapta o Refracta
+        Tools para Debian 13 + KDE Plasma e inclui a correção de autologin
+        do SDDM.
+      </p>
+
+      <div class="links">
+        <a
+          class="link"
+          href="https://github.com/AtmanActive/Refracta-on-Debian-13-with-KDE"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ↗ Ver projeto no GitHub
+        </a>
+
+        <a
+          class="link"
+          href="https://sourceforge.net/projects/refracta/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ↗ Refracta
+        </a>
+      </div>
+    </section>
 
     <footer>
-      Polius OS • Refracta Installer • Debian
+      Polius OS • Debian • KDE Plasma • Refracta Installer
     </footer>
 
-  </div>
+  </main>
 
   <script>
-    function copiar(botao, id) {
-      const texto = document.getElementById(id).innerText;
-      const original = botao.innerText;
+    async function copyCode(button, id) {
+      const text = document.getElementById(id).innerText;
 
-      navigator.clipboard.writeText(texto).then(() => {
-        botao.innerText = "✅ Copiado!";
-        botao.classList.add("copied");
+      try {
+        await navigator.clipboard.writeText(text);
+
+        const original = button.innerText;
+
+        button.innerText = "✅ Copiado!";
+        button.classList.add("ok");
 
         setTimeout(() => {
-          botao.innerText = original;
-          botao.classList.remove("copied");
-        }, 1800);
-      }).catch(() => {
+          button.innerText = original;
+          button.classList.remove("ok");
+        }, 1700);
+      } catch (error) {
         alert("Não foi possível copiar automaticamente.");
-      });
+      }
     }
   </script>
 
