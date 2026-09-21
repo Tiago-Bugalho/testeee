@@ -1,0 +1,109 @@
+/*
+    Polius OS - KDE Plasma Splash Screen
+*/
+
+import QtQuick
+import org.kde.kirigami 2 as Kirigami
+
+Rectangle {
+    id: root
+    color: "#090313"
+
+    property int stage: 0
+
+    Item {
+        id: content
+        anchors.fill: parent
+        opacity: 0
+
+        Column {
+            anchors.centerIn: parent
+            spacing: Kirigami.Units.gridUnit * 1.5
+
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "POLIUS"
+                color: "#b88cff"
+                font.bold: true
+                font.pixelSize: Math.min(root.width, root.height) * 0.10
+            }
+
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "OS"
+                color: "#ffffff"
+                font.bold: true
+                font.pixelSize: Math.min(root.width, root.height) * 0.045
+            }
+
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: "Iniciando..."
+                color: "#c9bfd8"
+                font.pixelSize: Math.min(root.width, root.height) * 0.025
+            }
+
+            Row {
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: Kirigami.Units.gridUnit * 0.5
+
+                Repeater {
+                    model: 3
+
+                    Rectangle {
+                        width: 12
+                        height: 12
+                        radius: 6
+                        color: "#b88cff"
+
+                        SequentialAnimation on opacity {
+                            loops: Animation.Infinite
+
+                            PauseAnimation {
+                                duration: index * 180
+                            }
+
+                            NumberAnimation {
+                                from: 0.25
+                                to: 1
+                                duration: 350
+                            }
+
+                            NumberAnimation {
+                                from: 1
+                                to: 0.25
+                                duration: 350
+                            }
+
+                            PauseAnimation {
+                                duration: (2 - index) * 180
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        Text {
+            anchors {
+                bottom: parent.bottom
+                horizontalCenter: parent.horizontalCenter
+                bottomMargin: Kirigami.Units.gridUnit
+            }
+
+            text: "Polius OS"
+            color: "#5f526d"
+            font.pixelSize: Kirigami.Units.gridUnit
+        }
+    }
+
+    OpacityAnimator {
+        id: introAnimation
+        target: content
+        from: 0
+        to: 1
+        duration: Kirigami.Units.veryLongDuration
+        easing.type: Easing.InOutQuad
+        running: root.stage >= 2
+    }
+}
