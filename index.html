@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Polius OS — Splash.qml</title>
+
+  <title>Polius OS — manifest.json</title>
 
   <style>
     * {
@@ -59,6 +61,10 @@
       background: #9d70ff;
     }
 
+    .copied {
+      background: #22c55e !important;
+    }
+
     pre {
       margin: 0;
       padding: 60px 20px 20px;
@@ -68,10 +74,6 @@
       line-height: 1.5;
       color: #eee;
     }
-
-    .copied {
-      background: #22c55e !important;
-    }
   </style>
 </head>
 
@@ -79,120 +81,30 @@
 
   <div class="container">
     <h1>☀ Polius OS</h1>
-    <p>Splash Screen — Plasma 6</p>
+    <p>manifest.json — Tema do KDE Plasma</p>
 
     <div class="code-box">
-      <button id="copyBtn" onclick="copiar()">📋 Copiar código</button>
 
-      <pre id="codigo">/*
-    Polius OS - KDE Plasma Splash Screen
-*/
+      <button id="copyBtn" onclick="copiar()">
+        📋 Copiar código
+      </button>
 
-import QtQuick
-import org.kde.kirigami 2 as Kirigami
-
-Rectangle {
-    id: root
-    color: "#090313"
-
-    property int stage: 0
-
-    Item {
-        id: content
-        anchors.fill: parent
-        opacity: 0
-
-        Column {
-            anchors.centerIn: parent
-            spacing: Kirigami.Units.gridUnit * 1.5
-
-            Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "POLIUS"
-                color: "#b88cff"
-                font.bold: true
-                font.pixelSize: Math.min(root.width, root.height) * 0.10
+      <pre id="codigo">{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Id": "org.polius.desktop",
+        "Name": "Polius OS",
+        "Description": "Tema oficial do Polius OS",
+        "Version": "1.0",
+        "License": "GPL-2.0-or-later",
+        "Authors": [
+            {
+                "Name": "Polius OS"
             }
-
-            Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "OS"
-                color: "#ffffff"
-                font.bold: true
-                font.pixelSize: Math.min(root.width, root.height) * 0.045
-            }
-
-            Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "Iniciando..."
-                color: "#c9bfd8"
-                font.pixelSize: Math.min(root.width, root.height) * 0.025
-            }
-
-            Row {
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: Kirigami.Units.gridUnit * 0.5
-
-                Repeater {
-                    model: 3
-
-                    Rectangle {
-                        width: 12
-                        height: 12
-                        radius: 6
-                        color: "#b88cff"
-
-                        SequentialAnimation on opacity {
-                            loops: Animation.Infinite
-
-                            PauseAnimation {
-                                duration: index * 180
-                            }
-
-                            NumberAnimation {
-                                from: 0.25
-                                to: 1
-                                duration: 350
-                            }
-
-                            NumberAnimation {
-                                from: 1
-                                to: 0.25
-                                duration: 350
-                            }
-
-                            PauseAnimation {
-                                duration: (2 - index) * 180
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        Text {
-            anchors {
-                bottom: parent.bottom
-                horizontalCenter: parent.horizontalCenter
-                bottomMargin: Kirigami.Units.gridUnit
-            }
-
-            text: "Polius OS"
-            color: "#5f526d"
-            font.pixelSize: Kirigami.Units.gridUnit
-        }
-    }
-
-    OpacityAnimator {
-        id: introAnimation
-        target: content
-        from: 0
-        to: 1
-        duration: Kirigami.Units.veryLongDuration
-        easing.type: Easing.InOutQuad
-        running: root.stage >= 2
+        ]
     }
 }</pre>
+
     </div>
   </div>
 
@@ -215,3 +127,4 @@ Rectangle {
 
 </body>
 </html>
+```
